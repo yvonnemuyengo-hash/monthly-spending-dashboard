@@ -17,13 +17,13 @@ main{padding:26px 22px 42px}.kpis{display:grid;grid-template-columns:repeat(4,mi
 </style>
 </head>
 <body>
-<header><div class="wrap"><div class="eyebrow">Personal finance · 2020–2025</div><h1>Monthly Spending Dashboard</h1><p>A clear look at income, expenses, monthly surplus, and the money set aside for savings and investments. Amounts are shown in Indian rupees (₹).</p></div></header>
+<header><div class="wrap"><div class="eyebrow">Personal finance · 2020–2025</div><h1>Monthly Spending Dashboard</h1><p>A clear look at income, expenses, monthly surplus, and the money set aside for savings and investments. Amounts are converted from Indian rupees (INR) to US dollars (USD) using a reference rate of 1 INR = 0.0104528 USD (October 13, 2026). Values are approximate.</p></div></header>
 <main class="wrap">
 <section class="kpis" aria-label="Summary metrics">
 <div class="kpi"><div class="label">Months included</div><div class="value">69</div><small>Jan 2020–Sep 2025</small></div>
-<div class="kpi"><div class="label">Average monthly income</div><div class="value">₹50,446</div><small>Across included months</small></div>
-<div class="kpi"><div class="label">Average monthly expenditure</div><div class="value">₹36,704</div><small>As recorded in the dataset</small></div>
-<div class="kpi"><div class="label">Average monthly surplus</div><div class="value">₹13,742</div><small>Income minus expenditure</small></div>
+<div class="kpi"><div class="label">Average monthly income</div><div class="value">$527</div><small>Across included months</small></div>
+<div class="kpi"><div class="label">Average monthly expenditure</div><div class="value">$384</div><small>As recorded in the dataset</small></div>
+<div class="kpi"><div class="label">Average monthly surplus</div><div class="value">$144</div><small>Income minus expenditure</small></div>
 </section>
 <section class="charts">
 <article class="panel"><h2>Income vs. total expenditure</h2><div class="chartbox"><canvas id="income"></canvas></div></article>
@@ -32,16 +32,17 @@ main{padding:26px 22px 42px}.kpis{display:grid;grid-template-columns:repeat(4,mi
 <article class="panel"><h2>Savings vs. investments</h2><div class="chartbox"><canvas id="saving"></canvas></div></article>
 </section>
 <section class="notes"><h2>Key findings</h2><ul>
-<li><strong>Rent is the largest category</strong> in the category fields, totalling ₹759,000 over the period.</li>
-<li><strong>Recorded savings rose from ₹62,199 in 2020 to ₹114,010 in 2024.</strong></li>
-<li><strong>2024 income was the highest full year shown</strong> at ₹744,000; the 2025 data only covers January through September.</li>
+<li><strong>Rent is the largest category</strong> in the category fields, totalling $7,934 over the period (converted from INR).</li>
+<li><strong>Recorded savings rose from $650 in 2020 to $1,192 in 2024 (converted from INR).</strong></li>
+<li><strong>2024 income was the highest full year shown</strong> at $7,777; the 2025 data only covers January through September.</li>
 <li><strong>Surplus is not the same as savings.</strong> This dashboard preserves the workbook’s separate definitions for surplus, savings, and investments.</li>
-</ul><p class="foot">Data source: supplied monthly spending dataset. Yearly totals for 2025 are partial (January–September). Figures are presented as recorded and have not been independently audited.</p></section>
+</ul><p class="foot">Data source: supplied monthly spending dataset. Yearly totals for 2025 are partial (January–September). Figures are converted from INR to USD at a single reference rate (1 INR = 0.0104528 USD, October 13, 2026), not historical exchange rates, and have not been independently audited.</p></section>
 </main>
 <footer>Monthly Spending Dashboard · Personal finance overview · 2020–2025</footer>
 <script>
 const years=['2020','2021','2022','2023','2024','2025'];
-const money=n=>'₹'+Number(n).toLocaleString('en-IN');
+const INR_TO_USD=0.0104528;
+const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Number(n)*INR_TO_USD);
 Chart.defaults.font.family='system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif';
 Chart.defaults.color='#667085';
 const common={responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},scales:{y:{ticks:{callback:v=>money(v)},grid:{color:'#edf0f5'}},x:{grid:{display:false}}}};
