@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monthly Spending Dashboard | 2020–2025</title>
+<meta name="description" content="Explore monthly spending, income, surplus, savings and investments from 2020 to 2025.">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--ink:#182230;--muted:#667085;--paper:#f5f7fb;--card:#fff;--line:#e5eaf2;--blue:#3768e5;--teal:#12a594;--violet:#8967d8}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{padding:44px 22px 32px;background:linear-gradient(125deg,#172b4d,#2855b8);color:#fff}
+.wrap{max-width:1180px;margin:auto}header p{color:#dce6ff;max-width:720px;margin:8px 0 0}h1{font-size:clamp(1.9rem,4vw,3rem);line-height:1.12;margin:0}h2{font-size:1.15rem;margin:0 0 16px}.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.75rem;font-weight:700;color:#a9c4ff;margin-bottom:12px}
+main{padding:26px 22px 42px}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:20px}.kpi,.panel,.notes{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 5px 18px #172b4d08}.kpi{padding:20px}.kpi .label{color:var(--muted);font-size:.85rem}.kpi .value{font-size:clamp(1.35rem,2vw,1.9rem);font-weight:750;margin-top:5px;letter-spacing:-.03em}.kpi small{color:var(--muted)}.charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.panel{padding:20px;min-width:0}.chartbox{height:300px;position:relative}.notes{margin-top:16px;padding:22px}.notes ul{margin:10px 0 0;padding-left:22px}.notes li{margin:7px 0}.foot{color:var(--muted);font-size:.85rem;margin-top:18px}footer{text-align:center;color:var(--muted);padding:0 22px 30px;font-size:.85rem}
+@media(max-width:800px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.charts{grid-template-columns:1fr}.chartbox{height:270px}}
+@media(max-width:420px){.kpis{grid-template-columns:1fr 1fr;gap:10px}.kpi{padding:14px}.panel{padding:15px}.chartbox{height:245px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="eyebrow">Personal finance · 2020–2025</div><h1>Monthly Spending Dashboard</h1><p>A clear look at income, expenses, monthly surplus, and the money set aside for savings and investments. Amounts are shown in Indian rupees (₹).</p></div></header>
+<main class="wrap">
+<section class="kpis" aria-label="Summary metrics">
+<div class="kpi"><div class="label">Months included</div><div class="value">69</div><small>Jan 2020–Sep 2025</small></div>
+<div class="kpi"><div class="label">Average monthly income</div><div class="value">₹50,446</div><small>Across included months</small></div>
+<div class="kpi"><div class="label">Average monthly expenditure</div><div class="value">₹36,704</div><small>As recorded in the dataset</small></div>
+<div class="kpi"><div class="label">Average monthly surplus</div><div class="value">₹13,742</div><small>Income minus expenditure</small></div>
+</section>
+<section class="charts">
+<article class="panel"><h2>Income vs. total expenditure</h2><div class="chartbox"><canvas id="income"></canvas></div></article>
+<article class="panel"><h2>Totals by category</h2><div class="chartbox"><canvas id="category"></canvas></div></article>
+<article class="panel"><h2>Yearly surplus</h2><div class="chartbox"><canvas id="surplus"></canvas></div></article>
+<article class="panel"><h2>Savings vs. investments</h2><div class="chartbox"><canvas id="saving"></canvas></div></article>
+</section>
+<section class="notes"><h2>Key findings</h2><ul>
+<li><strong>Rent is the largest category</strong> in the category fields, totalling ₹759,000 over the period.</li>
+<li><strong>Recorded savings rose from ₹62,199 in 2020 to ₹114,010 in 2024.</strong></li>
+<li><strong>2024 income was the highest full year shown</strong> at ₹744,000; the 2025 data only covers January through September.</li>
+<li><strong>Surplus is not the same as savings.</strong> This dashboard preserves the workbook’s separate definitions for surplus, savings, and investments.</li>
+</ul><p class="foot">Data source: supplied monthly spending dataset. Yearly totals for 2025 are partial (January–September). Figures are presented as recorded and have not been independently audited.</p></section>
+</main>
+<footer>Monthly Spending Dashboard · Personal finance overview · 2020–2025</footer>
+<script>
+const years=['2020','2021','2022','2023','2024','2025'];
+const money=n=>'₹'+Number(n).toLocaleString('en-IN');
+Chart.defaults.font.family='system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif';
+Chart.defaults.color='#667085';
+const common={responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},scales:{y:{ticks:{callback:v=>money(v)},grid:{color:'#edf0f5'}},x:{grid:{display:false}}}};
+new Chart(document.getElementById('income'),{type:'bar',data:{labels:years,datasets:[{label:'Income',data:[440000,496800,576000,648000,744000,576000],backgroundColor:'#3768e5',borderRadius:5},{label:'Expenditure',data:[384487,391996,406889,412819,564620,371768],backgroundColor:'#12a594',borderRadius:5}]},options:common});
+new Chart(document.getElementById('category'),{type:'bar',data:{labels:['Rent','Savings','Investments','Groceries','Dining & entertainment','Transportation','Utilities','Healthcare','Shopping & wants','EMI / loans','Gym'],datasets:[{label:'Total across period',data:[759000,525266,435873,433797,189032,177279,136544,100000,95000,70000,55000],backgroundColor:['#3768e5','#12a594','#8967d8','#5d91ed','#e5a34b','#46a7b8','#8294ad','#b6a1e8','#ef8f8f','#a4b77d','#d5a46b'],borderRadius:4}]},options:{...common,indexAxis:'y',plugins:{legend:{display:false},tooltip:common.plugins.tooltip},scales:{x:{ticks:{callback:v=>money(v)},grid:{color:'#edf0f5'}},y:{grid:{display:false}}}}});
+new Chart(document.getElementById('surplus'),{type:'bar',data:{labels:years,datasets:[{label:'Surplus',data:[55513,104804,169111,235181,179380,204232],backgroundColor:'#12a594',borderRadius:5}]},options:{...common,plugins:{legend:{display:false},tooltip:common.plugins.tooltip}}});
+new Chart(document.getElementById('saving'),{type:'line',data:{labels:years,datasets:[{label:'Savings',data:[62199,68653,87999,101340,114010,91065],borderColor:'#3768e5',backgroundColor:'#3768e5',tension:.25},{label:'Investments',data:[56409,60753,73276,79518,92539,73378],borderColor:'#8967d8',backgroundColor:'#8967d8',tension:.25}]},options:{...common,elements:{point:{radius:4}},plugins:{legend:{position:'bottom'},tooltip:common.plugins.tooltip}}});
+</script>
+</body></html>
